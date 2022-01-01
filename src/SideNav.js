@@ -2,7 +2,7 @@
 import Link from "@mui/material/Link";
 import logo from "./main_logo_left.png";
 import './App.css'; 
-import * as React from 'react';
+import  React  from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -18,15 +18,71 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText'; 
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import BusinessIcon from '@mui/icons-material/Business';
-import ImportContactsIcon from '@mui/icons-material/ImportContacts';
-import ContactsIcon from '@mui/icons-material/Contacts';
-import DirectionsIcon from '@mui/icons-material/Directions';
-import SimpleForm from './pages/SimpleForm';
+import ListItemText from '@mui/material/ListItemText';  
+import menudata from './pages/menudata'
+import PropTypes from 'prop-types'; 
 import { useMediaQuery } from 'react-responsive';
+import {
+  Link as RouterLink,
+  Route,
+  Routes,
+  MemoryRouter,
+  useLocation
+} from 'react-router-dom';
+
+import { StaticRouter } from 'react-router-dom/server.mjs'; 
+
+function Router(props) {
+  const { children } = props;
+  if (typeof window === 'undefined') {
+    return <StaticRouter location="/registrationdetails">{children}</StaticRouter>;
+  }
+  
+  return (
+    <MemoryRouter initialEntries={['/registrationdetails']} initialIndex={0}>
+      {children}
+    </MemoryRouter>
+  );
+}
+
+Router.propTypes = {
+  children: PropTypes.node,
+};
+
+function ListItemLink(props) {
+  const { icon,selected,disabled, primary, to } = props;
+
+  const renderLink = React.useMemo(
+    () =>
+      React.forwardRef(function Link(itemProps, ref) {
+        return <RouterLink to={to} ref={ref} {...itemProps} role={undefined} />;
+      }),
+    [to],
+  );
+
+  return (
+    <li>
+      <ListItem button component={renderLink} key={primary} selected= {selected} disabled={disabled}>
+        {icon ? <ListItemIcon >{icon}</ListItemIcon> : null}
+        <ListItemText primary={primary} />
+      </ListItem>
+    </li>
+  );
+}
+ 
+function GetRouteElem()
+{
+  debugger;   
+  const pathlocation = useLocation();
+  var data = menudata.menuitem.find((e) => e.menupath === pathlocation.pathname)
+ return (data.routedata);
+}
+
+ListItemLink.propTypes = {
+  icon: PropTypes.element,
+  primary: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+}; 
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -86,6 +142,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+
+
 export default function MiniDrawer() {
   const theme = useTheme();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
@@ -96,10 +154,10 @@ export default function MiniDrawer() {
 
   const handleDrawerClose = () => {
     setOpen(!open);
-  };
-
+  }; 
   return (
     <Box sx={{ display: 'flex' }}>
+       <Router>
       <CssBaseline />  
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -107,8 +165,7 @@ export default function MiniDrawer() {
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            edge="start"
-             
+            edge="start"             
           >
             <MenuIcon />
           </IconButton>
@@ -126,25 +183,25 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Registration Details", "Company Name", "Address Details", "Contact Details","Submission Route(s)","Confirmation"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index === 0 ? <AppRegistrationIcon /> : 
-                index === 1 ? <BusinessIcon /> : 
-                index === 2 ? <ImportContactsIcon /> : 
-                index === 3 ? <ContactsIcon /> : 
-                index === 4 ? <DirectionsIcon /> : <ConfirmationNumberIcon/>
-                }
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
+          {menudata.menuitem.map((menuitem, index) => (
+            <ListItemLink primary={menuitem.menucaption} to={menuitem.menupath} 
+              disabled = {index === 2}
+              selected ={index === 0}
+              icon = {menuitem.icon}
+              routedata ={menuitem}
+              key={menuitem.menucaption}
+              >
+            </ListItemLink>
           ))}
         </List>  
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <SimpleForm /> 
-      </Box>
+        <DrawerHeader /> 
+        <Routes>
+          <Route path="*" element={<GetRouteElem/>} />
+        </Routes> 
+      </Box> 
+      </Router>
     </Box>
   );
 }
