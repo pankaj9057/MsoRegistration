@@ -15,21 +15,20 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'; 
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';  
-import menudata from './pages/menudata'
+import RoutesData from './pages/menudata'
 import PropTypes from 'prop-types'; 
-import { useMediaQuery } from 'react-responsive';
-import {
+import { useMediaQuery } from 'react-responsive'; 
+import { 
   Link as RouterLink,
   Route,
   Routes,
   MemoryRouter,
   useLocation
 } from 'react-router-dom';
-
+import ListItemButton from '@mui/material/ListItemButton';
 import { StaticRouter } from 'react-router-dom/server.mjs'; 
 
 function Router(props) {
@@ -48,41 +47,6 @@ function Router(props) {
 Router.propTypes = {
   children: PropTypes.node,
 };
-
-function ListItemLink(props) {
-  const { icon,selected,disabled, primary, to } = props;
-
-  const renderLink = React.useMemo(
-    () =>
-      React.forwardRef(function Link(itemProps, ref) {
-        return <RouterLink to={to} ref={ref} {...itemProps} role={undefined} />;
-      }),
-    [to],
-  );
-
-  return (
-    <li>
-      <ListItem button component={renderLink} key={primary} selected= {selected} disabled={disabled}>
-        {icon ? <ListItemIcon >{icon}</ListItemIcon> : null}
-        <ListItemText primary={primary} />
-      </ListItem>
-    </li>
-  );
-}
- 
-function GetRouteElem()
-{
-  debugger;   
-  const pathlocation = useLocation();
-  var data = menudata.menuitem.find((e) => e.menupath === pathlocation.pathname)
- return (data.routedata);
-}
-
-ListItemLink.propTypes = {
-  icon: PropTypes.element,
-  primary: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
-}; 
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -142,19 +106,61 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+function ListItemLink(props) {
+  const { icon, primary, to ,onclick,Selected,Disabled} = props;
 
+  const renderLink = React.useMemo(
+    () =>
+      React.forwardRef(function Link(itemProps, ref) {
+        return <RouterLink to={to} ref={ref} {...itemProps} role={undefined} onClick ={onclick} selected = {Selected} disabled = {Disabled}/>;
+      }),
+    [to],
+  );
 
-export default function MiniDrawer() {
+  return (
+    <li>
+      <ListItemButton component={renderLink} onClick={onclick} selected={Selected} disabled = {Disabled}>
+        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+        <ListItemText primary={primary} />
+      </ListItemButton>
+    </li>
+  );
+}
+
+ListItemLink.propTypes = {
+  icon: PropTypes.element,
+  primary: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+};
+
+function GetRouteElem(NavigateToNext)
+{ 
+ const pathlocation = useLocation();
+ var data = RoutesData(NavigateToNext).menuitem.find((e) => e.menupath === pathlocation.pathname)
+ return (data.routedata);
+} 
+export default function MiniDrawer() {  
   const theme = useTheme();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   const [open, setOpen] = React.useState(!isMobile); 
   const handleDrawerOpen = () => {
     setOpen(!open);
-  };
-
+  }; 
   const handleDrawerClose = () => {
     setOpen(!open);
   }; 
+  const [disabledIndex, setDisabledIndex] = React.useState(0);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const handleListItemClick = (index) => {     
+    setSelectedIndex(index);    
+  }; 
+
+  function NavigateToNext(index)
+  {
+    setSelectedIndex(index); 
+    setDisabledIndex(disabledIndex>= index ? disabledIndex:index);
+  }
+   
   return (
     <Box sx={{ display: 'flex' }}>
        <Router>
@@ -181,24 +187,21 @@ export default function MiniDrawer() {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
+        <Divider /> 
         <List>
-          {menudata.menuitem.map((menuitem, index) => (
-            <ListItemLink primary={menuitem.menucaption} to={menuitem.menupath} 
-              disabled = {index === 2}
-              selected ={index === 0}
-              icon = {menuitem.icon}
-              routedata ={menuitem}
-              key={menuitem.menucaption}
-              >
-            </ListItemLink>
+          {RoutesData(NavigateToNext).menuitem.map((menuitem, index) => (
+           <ListItemLink to={menuitem.menupath} primary={menuitem.menucaption} icon={menuitem.icon}
+             key={menuitem.menucaption} 
+             onclick={(event) => handleListItemClick(index)}
+             Selected = {selectedIndex === index}
+             Disabled = {!(index === disabledIndex || index < disabledIndex)} />
           ))}
         </List>  
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader /> 
-        <Routes>
-          <Route path="*" element={<GetRouteElem/>} />
+        <Routes >
+          <Route path="*" element={<GetRouteElem NavigateToNext = {NavigateToNext}/>} />
         </Routes> 
       </Box> 
       </Router>

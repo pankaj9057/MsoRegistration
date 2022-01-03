@@ -3,10 +3,17 @@ import React from 'react'
 import Typography from '@mui/material/Typography';
 import { useMediaQuery } from 'react-responsive';
 import Grid from '@mui/material/Grid';   
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useNavigate  } from 'react-router-dom';
 
-const addressDetails = () => { 
+const addressDetails = ({NavigateToNext}) => { 
+    const navigate = useNavigate();
+
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-
+    const handleme= () =>{
+        NavigateToNext.NavigateToNext(3)
+        navigate("/contactdetails"); 
+    }
     return (
 
         <div>
@@ -27,6 +34,7 @@ const addressDetails = () => {
                         <Typography sx={{ m: 1 }} variant="h5">Address Details</Typography>
                     </Grid> 
                 </Grid>
+                <LoadingButton onClick={handleme}>Test Next Button</LoadingButton>     
             </Box>
         </div>
     )

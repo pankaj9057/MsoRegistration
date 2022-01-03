@@ -2,11 +2,11 @@ import Box from '@mui/material/Box';
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import { useMediaQuery } from 'react-responsive';
-import Grid from '@mui/material/Grid';   
+import Grid from '@mui/material/Grid';    
 
-const confirmationtDetails = () => { 
+const confirmationtDetails = () => {  
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-
+ 
     return (
 
         <div>
@@ -26,7 +26,7 @@ const confirmationtDetails = () => {
                     <Grid columns={12} container>
                         <Typography sx={{ m: 1 }} variant="h5">Confirmation</Typography>
                     </Grid> 
-                </Grid>
+                </Grid> 
             </Box>
         </div>
     )

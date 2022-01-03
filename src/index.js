@@ -3,13 +3,15 @@ import ReactDOM from 'react-dom';
 import { StyledEngineProvider } from '@mui/material/styles'; 
 import SideNav from './SideNav'; 
 import reportWebVitals from './reportWebVitals';
-
+import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
   <StyledEngineProvider injectFirst>
     <SideNav />
   </StyledEngineProvider>,
   document.getElementById('root')
 );
+ 
+serviceWorker.unregister();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

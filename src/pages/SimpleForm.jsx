@@ -1,4 +1,3 @@
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box';
 import React, { useState } from 'react'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
@@ -18,8 +17,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import SendIcon from '@mui/icons-material/Send';  
 import NoFcaFound from './alerts/nofcafound'
 import MteInfo from './alerts/MteInfo';
+import { MsoRegistrationService } from '../_services/msoregistration-api'; 
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useNavigate  } from 'react-router-dom';
 
-const simpleform = () => {
+function  simpleform({NavigateToNext}) {
+
     const [state, setState] = useState({
         errorMessage: {
 
@@ -31,7 +34,7 @@ const simpleform = () => {
             Brand: '',
             Company_FCA_number: ''
         },
-        error: false,
+        error: true,
         activeStep: 0,
         firstName: '',
         Surname: '',
@@ -48,14 +51,19 @@ const simpleform = () => {
             ...prev,
             [event.target.name]: event.target.value,
         }))
-        handleNext(event);
+        handleChangeEvent(event);
     }
+const handleme= () =>{
+    NavigateToNext.NavigateToNext(1)
+    navigate("/companyname"); 
+}
 
     const handleDateChange = (date) => {
         setState({ ...state, date })
     }
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-    const handleNext = (event) => {
+
+    const handleChangeEvent= (event)=>{
         Object.entries(state).map(([key, value]) => (
             (((key === event.target.name &&
                 event.target.value !== null &&
@@ -80,6 +88,80 @@ const simpleform = () => {
                     }
                 }))
         ))
+    }
+
+    const [fcaStatus, setFcaStatus] = React.useState(true);
+    const [continuebuttondisabled, setContinueButtonStatus] = React.useState(true);
+    const [fcabuttonloading, setFcabuttonloading] = React.useState(false);
+    const [continuebuttonloading, Setcontinuebutton] = React.useState(false);
+    
+ 
+    const findFCA = (event) =>
+    {
+       
+        setFcabuttonloading(true);
+        console.log(state.Company_FCA_number);
+        MsoRegistrationService.post(state.Company_FCA_number,"/validatefca")
+        .then((response) => {
+            if(response.ok)
+            {
+            setFcaStatus(true);
+            setContinueButtonStatus(false);
+            console.log("Enable and redirect to, next menu");
+            setFcabuttonloading(false);
+            }
+            else{
+                setFcaStatus(false);
+                setContinueButtonStatus(true);
+                setFcabuttonloading(false);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            setFcaStatus(false);
+            setFcabuttonloading(false);
+        });
+    }
+    const navigate = useNavigate();
+    const handleNext = (event) => {         
+        handleChangeEvent(event);        
+        if(!state.error)
+        {
+            Setcontinuebutton(true);
+            MsoRegistrationService.post(
+                 {
+                    "title": {
+                      "value": state.Title,
+                      "caption": state.TitleCaption
+                    },
+                    "firstname": state.firstName,
+                    "surname": state.Surname,
+                    "dateOfBirth": state.date,
+                    "role": {
+                      "value": state.Role,
+                      "caption": state.RoleCaption
+                    },
+                    "brand": {
+                      "value": state.Brand,
+                      "caption": state.BrandCaption
+                    },
+                    "fcaNumber": state.Company_FCA_number
+                },"/register"
+            )
+            .then((response) => {
+                if(response.ok)
+                {
+                    console.log("Enable and redirect to, next menu");
+                    NavigateToNext.NavigateToNext(1);
+                    navigate("/companyname"); 
+                }
+                Setcontinuebutton(false);
+            })
+            .catch((err) => {
+                console.error(err);
+                Setcontinuebutton(false);
+            });
+        }
     };
 
     return (
@@ -101,10 +183,10 @@ const simpleform = () => {
                     <Grid columns={12} container>
                         <Typography sx={{ m: 1 }} variant="h5">Registration Details </Typography>
                     </Grid>
-                    <Grid container columns={12} display={'none'}>
+                    <Grid container columns={12} display={fcaStatus?'none':'block'}>
                         <NoFcaFound/>
                     </Grid>
-                    <Grid container columns={12}> 
+                    <Grid container columns={12} display={'block'}> 
                       <MteInfo/>
                     </Grid>
                     <Grid columns={12} container>
@@ -259,13 +341,13 @@ const simpleform = () => {
                             </Grid>
                         </Grid>
                         <Grid columns={12} container>
-                            <Grid item xs={12} sm={12} md={4} lg={4}>
+                            <Grid item xs={12} sm={12} md={6} lg={4}>
                                 <TextField
                                     label="Company FCA number"
                                     onChange={handleChange}
                                     type="text"
                                     name="Company_FCA_number"
-                                    value={state.SurnCompany_FCA_numberame}
+                                    value={state.Company_FCA_number}
                                     error={state.errorMessage.Company_FCA_number !== ''}
                                     helperText={state.errorMessage.Company_FCA_number}
                                     size="small"
@@ -273,19 +355,29 @@ const simpleform = () => {
                                 </TextField>
 
                             </Grid>
-                            <Grid item xs={12} sm={12} md={8} lg={8}>
-                                <Button startIcon={<SearchIcon />} sx={{ m: 1 }} variant="contained" color="success" size="medium" onClick={handleNext}>Search</Button>
+                            <Grid item xs={12} sm={12} md={6} lg={8}>
+                                <LoadingButton startIcon={<SearchIcon />} sx={{ m: 1 }} variant="contained" 
+                                loading={fcabuttonloading} 
+                                loadingPosition="start"
+                                disabled={state.Company_FCA_number === ''}
+                                color="success" size="medium" onClick={findFCA}>Search</LoadingButton>
                             </Grid>
                         </Grid>
 
                         <Grid columns={12} container>
                             <Grid item xs={12} sm={12} md={12} lg={12}>
-                                <Button startIcon={<SendIcon />} sx={{ m: 1 }} variant="contained" color="success" onClick={handleNext}>Agree & Continue</Button>
+                                <LoadingButton startIcon={<SendIcon />} sx={{ m: 1 }} variant="contained"
+                                 disabled ={continuebuttondisabled} 
+                                 loading={continuebuttonloading} 
+                                loadingPosition="start" 
+                                color="success" onClick={handleNext}>Agree & Continue</LoadingButton> 
+                                <LoadingButton onClick={handleme}>Test Next Button</LoadingButton>                                 
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
             </Box>
+            
         </div>
     )
 }
