@@ -5,14 +5,14 @@ import { useMediaQuery } from 'react-responsive';
 import Grid from '@mui/material/Grid';   
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate  } from 'react-router-dom';
-
+import {ConfirmationRoute} from '../Scripts/RoutesData';
 const submissionRoute = ({NavigateToNext}) => { 
     const navigate = useNavigate();
 
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const handleme= () =>{
-        NavigateToNext.NavigateToNext(5)
-        navigate("/confirmation"); 
+        NavigateToNext.NavigateToNext(ConfirmationRoute.RouteNumber)
+        navigate(ConfirmationRoute.RouteName); 
     }
     return (
 
