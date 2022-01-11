@@ -17,6 +17,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SendIcon from '@mui/icons-material/Send';  
 import NoFcaFound from './alerts/nofcafound'
 import MteInfo from './alerts/MteInfo';
+import DeclarationInfo from "./alerts/DeclarationInfo"
 import { MsoRegistrationService } from '../Services/msoregistration-api'; 
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate  } from 'react-router-dom';
@@ -348,7 +349,18 @@ const handleme= () =>{
                                 color="success" size="medium" onClick={findFCA}>Search</LoadingButton>
                             </Grid>
                         </Grid>
-
+                        <Grid columns={12} container sx={{
+                            mx: 'auto',
+                            bgcolor: 'primary.light',
+                            color: '#fff',
+                            m: 1,
+                            borderRadius: 1,
+                        }}>
+                            <Typography sx={{ m: 1 }}>Declaration</Typography>
+                        </Grid>
+                        <Grid columns={12} container display={'block'}>
+                           <DeclarationInfo/>
+                        </Grid>
                         <Grid columns={12} container>
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                                 <LoadingButton startIcon={<SendIcon />} sx={{ m: 1 }} variant="contained"
