@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { StyledEngineProvider } from '@mui/material/styles'; 
-import SideNav from './SideNav'; 
+import SideNav from './components/SideNav'; 
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
