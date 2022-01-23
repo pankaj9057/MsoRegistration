@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box';
+import {Box,Paper} from '@mui/material';
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import { useMediaQuery } from 'react-responsive';
@@ -6,9 +6,11 @@ import Grid from '@mui/material/Grid';
 import { useNavigate  } from 'react-router-dom';
 import LoadingButton from "@mui/lab/LoadingButton";
 import {AddressRoute} from '../Scripts/RoutesData';
+import Controls from '../components/controls/Controls';
+import BoxHeader from '../components/BoxHeader';
 const companyDetails =  ({NavigateToNext}) => { 
     const navigate = useNavigate();
-
+   
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const handleme= () =>{
         NavigateToNext.NavigateToNext(AddressRoute.RouteNumber)
@@ -36,6 +38,31 @@ const companyDetails =  ({NavigateToNext}) => {
                 </Grid>
                 <LoadingButton onClick={handleme}>Test Next Button</LoadingButton>   
             </Box>
+            <Paper variant="outlined">
+           
+                <BoxHeader title="Personal Details" />
+                <Grid container
+                   sx={{m:1}}
+                    columns={12}>
+            <Controls.Input
+                                label="First Name" 
+                                type="text"
+                                name="firstName"
+                                
+                            />
+                                <Controls.Input
+                                label="First Name" 
+                                type="text"
+                                name="firstName" 
+                            />
+                                <Controls.Input
+                                label="First Name" 
+                                type="text"
+                                name="firstName" 
+                            />
+                            </Grid>
+                </Paper>
+
         </div>
     )
 }

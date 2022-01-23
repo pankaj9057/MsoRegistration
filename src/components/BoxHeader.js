@@ -7,9 +7,9 @@ export default function BoxHeader(props) {
         <Grid columns={12} container sx={{
             mx: 'auto',
             bgcolor: 'primary.light',
-            color: '#fff',
-            m: 1,
-            borderRadius: 1,
+            color: '#fff',  
+            borderTopLeftRadius:5,
+            borderTopRightRadius:5
         }}>
             <Typography sx={{ m: 1 }}>{title}</Typography>
         </Grid>

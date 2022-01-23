@@ -22,7 +22,7 @@ import Header from "./Header";
 
 export default function MiniDrawer() {  
   const theme = useTheme();
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const isMobile = useMediaQuery({ query: `(max-width: 992px)` });
   const [open, setOpen] = React.useState(!isMobile); 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -61,14 +61,16 @@ export default function MiniDrawer() {
              key={menuitem.menucaption} 
              onclick={(event) => handleListItemClick(index)}
              Selected = {selectedIndex === index}
-             Disabled = {!(index === disabledIndex || index < disabledIndex)} />
-          ))}
+             Disabled = {!(index === disabledIndex || index < disabledIndex) && menuitem.disabled} />
+          ))} 
         </List>  
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader /> 
         <Routes >
-          <Route path="*" element={<GetRouteElem NavigateToNext = {NavigateToNext} FormState = {state} setFormDataState = {setState}/>} />
+          <Route path="*" element={<GetRouteElem NavigateToNext = {NavigateToNext} FormState = {state} setFormDataState = {setState}
+          draweOpenStatus = {open && isMobile}
+          />} />
         </Routes> 
       </Box> 
       </Router>

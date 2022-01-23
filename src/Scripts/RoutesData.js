@@ -11,8 +11,9 @@ import CompanyDetails from '../pages/CompanyDetails';
 import AddressDetails from '../pages/AddressDetails';
 import SubmissionRoute from '../pages/SubmissionRoute';
 import ContactDetails from '../pages/ContactDetails';
+import Documentation from '../pages/Documentation'
 import ConfirmationDetails from '../pages/ConfirmationDetails';
-
+import ArticleIcon from '@mui/icons-material/Article';
 function RoutesData(NavigateToNext)
 {
   return (
@@ -24,7 +25,8 @@ function RoutesData(NavigateToNext)
    {menucaption : "Address Details", menupath : '/addressdetails',icon:<ImportContactsIcon  color="primary"  />,routedata:<AddressDetails NavigateToNext = {NavigateToNext}/>,disabled:true,selected:false},
    {menucaption : "Contact Details",menupath : '/contactdetails',icon:<ContactsIcon  color="primary"  />,routedata:<ContactDetails NavigateToNext = {NavigateToNext}/>,disabled:true,selected:false},
    {menucaption : "Submission Route(s)",menupath : '/submissionroute',icon:<DirectionsIcon  color="primary"  />,routedata:<SubmissionRoute NavigateToNext = {NavigateToNext}/>,disabled:true,selected:false},
-   {menucaption : "Confirmation",menupath : '/confirmation',icon:<ConfirmationNumberIcon  color="primary"  />,routedata:<ConfirmationDetails NavigateToNext = {NavigateToNext}/>,disabled:true,selected:false}
+   {menucaption : "Confirmation",menupath : '/confirmation',icon:<ConfirmationNumberIcon  color="primary"  />,routedata:<ConfirmationDetails NavigateToNext = {NavigateToNext}/>,disabled:true,selected:false},
+   {menucaption : "Documentation",menupath : '/documentation',icon:<ArticleIcon  color="primary"  />,routedata:<Documentation NavigateToNext = {NavigateToNext}/>,disabled:false,selected:false}
   ]})
 }
 
