@@ -1,19 +1,19 @@
 self.__precacheManifest = [
   {
-    "revision": "2070cc4bb0db7861914d",
+    "revision": "7ddb62ac9ab923027044",
     "url": "/MsoRegistration/static/css/main.a894074b.chunk.css"
   },
   {
-    "revision": "2070cc4bb0db7861914d",
-    "url": "/MsoRegistration/static/js/main.2070cc4b.chunk.js"
+    "revision": "7ddb62ac9ab923027044",
+    "url": "/MsoRegistration/static/js/main.7ddb62ac.chunk.js"
   },
   {
     "revision": "a127e1b8bb31ad0108d9",
     "url": "/MsoRegistration/static/js/1.a127e1b8.chunk.js"
   },
   {
-    "revision": "6f099d0cb75a1a508dc0",
-    "url": "/MsoRegistration/static/js/2.6f099d0c.chunk.js"
+    "revision": "2b549774723ad83af2c0",
+    "url": "/MsoRegistration/static/js/2.2b549774.chunk.js"
   },
   {
     "revision": "cb221ba2eb034af12942",
@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/MsoRegistration/static/media/main_logo_left.dd08f33a.png"
   },
   {
-    "revision": "f57cfaf75aa0661647d81624ec45d85f",
+    "revision": "0e55038be0f0f60ecf23ab4afda38486",
     "url": "/MsoRegistration/index.html"
   }
 ];
