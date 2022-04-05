@@ -1,16 +1,15 @@
 {
   "main.css": "/MsoRegistration/static/css/main.6e407fa5.chunk.css",
-  "main.js": "/MsoRegistration/static/js/main.23fa35a6.chunk.js",
-  "main.js.map": "/MsoRegistration/static/js/main.23fa35a6.chunk.js.map",
+  "main.js": "/MsoRegistration/static/js/main.e2abf6de.chunk.js",
+  "main.js.map": "/MsoRegistration/static/js/main.e2abf6de.chunk.js.map",
   "static/js/1.22d3e33e.chunk.js": "/MsoRegistration/static/js/1.22d3e33e.chunk.js",
   "static/js/1.22d3e33e.chunk.js.map": "/MsoRegistration/static/js/1.22d3e33e.chunk.js.map",
   "static/js/2.0d5b5e91.chunk.js": "/MsoRegistration/static/js/2.0d5b5e91.chunk.js",
   "static/js/2.0d5b5e91.chunk.js.map": "/MsoRegistration/static/js/2.0d5b5e91.chunk.js.map",
   "runtime~main.js": "/MsoRegistration/static/js/runtime~main.5e3c2e57.js",
   "runtime~main.js.map": "/MsoRegistration/static/js/runtime~main.5e3c2e57.js.map",
-  "static/media/main_logo_left.png": "/MsoRegistration/static/media/main_logo_left.dd08f33a.png",
   "static/css/main.6e407fa5.chunk.css.map": "/MsoRegistration/static/css/main.6e407fa5.chunk.css.map",
   "index.html": "/MsoRegistration/index.html",
-  "precache-manifest.abbb093ef88d0ffcb700be6670c68454.js": "/MsoRegistration/precache-manifest.abbb093ef88d0ffcb700be6670c68454.js",
+  "precache-manifest.7c80028033ce944c717c7be5efb227f1.js": "/MsoRegistration/precache-manifest.7c80028033ce944c717c7be5efb227f1.js",
   "service-worker.js": "/MsoRegistration/service-worker.js"
 }
